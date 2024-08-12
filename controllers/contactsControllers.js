@@ -1,12 +1,54 @@
 // import contactsService from "../services/contactsServices.js";
-const contactsService = require("../services/contactsServices.js");
+const {listContacts, getContactById, addContact} = require("../services/contactsServices.js");
+const HttpError = require("../helpers/HttpError.js");
+const { createContactSchema, updateContactSchema } = require("../schemas/contactsSchemas.js");
 
-export const getAllContacts = (req, res) => {};
 
-export const getOneContact = (req, res) => {};
+const getAllContacts = async (req, res, next) => {
+    try {
+        const contacts = await listContacts();
+    
+        res.status(200).json(contacts);
+      } catch (error) {
+        next(error);
+      }
+    };
+const getOneContact = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const contact = await getContactById(id);
+    
+        if (!contact) {
+          throw HttpError(404);
+        }
+    
+        res.status(200).json(contact);
+      } catch (error) {
+        next(error);
+      }
+};
 
-export const deleteContact = (req, res) => {};
+// const deleteContact = async (req, res, next) => {};
 
-export const createContact = (req, res) => {};
+const createContact = async (req, res, next) => {
+    try {
+        const {error} = createContactSchema.validate(req.body);
+        if(error) {
+            throw HttpError(400, error.message);
+        }
+        const newContact = await addContact(req.body);
+        res.status(201).json(newContact);
+    } catch (error) {
+        next(error);
+      }
+};
 
-export const updateContact = (req, res) => {};
+// const updateContact = async (req, res, next) => {};
+
+module.exports = {
+    getAllContacts,
+    getOneContact,
+    // deleteContact,
+    createContact,
+    // updateContact
+};
