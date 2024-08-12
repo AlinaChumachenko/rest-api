@@ -15,6 +15,33 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
+//-----------------------------------------------------------------
+// app.get("/", (req, res) => {
+//   res.json({ message: "It works!" });
+// })
+
+//-----------------------------------------------------------------
+// app.get("/contacts", (req, res) => {
+//   res.json({ message: "It works page contacts!" });
+// })
+
+//-----------------------------------------------------------------
+// const contacts = require("./bd/contacts.json");
+
+// app.use((req, res, next) => {
+//   console.log('Hello from the first middleware');
+//   next();
+// });
+
+// app.use((req, res, next) => {
+//   console.log('Hello from the second middleware');
+//   next();
+// });
+
+// app.get("/contacts", (req, res) => {
+//   res.json(contacts);
+// })
+
 app.use("/api/contacts", contactsRouter);
 
 app.use((_, res) => {
