@@ -5,11 +5,11 @@ const ctrlWrapper = require("../helpers/ctriWrapper.js");
 const { createContactSchema, updateContactSchema } = require("../schemas/contactsSchemas.js");
 
 
-const getAllContacts = async (req, res, next) => {
+const getAllContacts = async (req, res) => {
       const contacts = await listContacts();
       res.status(200).json(contacts);
     };
-const getOneContact = async (req, res, next) => {
+const getOneContact = async (req, res) => {
    
         const { id } = req.params;
         const contact = await getContactById(id);
@@ -22,7 +22,7 @@ const getOneContact = async (req, res, next) => {
       
 };
 
-const deleteContact = async (req, res, next) => {
+const deleteContact = async (req, res) => {
    
         const { id } = req.params;
         const contact = await removeContact(id);
@@ -35,7 +35,7 @@ const deleteContact = async (req, res, next) => {
       
 };
 
-const createContact = async (req, res, next) => {
+const createContact = async (req, res) => {
     
         const {error} = createContactSchema.validate(req.body);
         if(error) {
@@ -46,7 +46,7 @@ const createContact = async (req, res, next) => {
     
 };
 
-const updateContact = async (req, res, next) => {
+const updateContact = async (req, res) => {
    
         const {error} = updateContactSchema.validate(req.body);
         if(error) { 
