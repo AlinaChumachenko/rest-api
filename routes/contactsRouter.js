@@ -3,7 +3,7 @@ const express = require("express");
 const {
   getAllContacts,
   getOneContact,
-  // deleteContact,
+  deleteContact,
   createContact,
   updateContact,
 } = require("../controllers/contactsControllers.js");
@@ -14,11 +14,11 @@ contactsRouter.get("/", getAllContacts);
 
 contactsRouter.get("/:id", getOneContact);
 
-// contactsRouter.delete("/:id", deleteContact);
+contactsRouter.delete("/:id", deleteContact);
 
 contactsRouter.post("/", createContact);
 
 contactsRouter.put("/:id", updateContact);
 
-// // export default contactsRouter;
+// export default contactsRouter;
 module.exports = contactsRouter;
