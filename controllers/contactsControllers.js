@@ -6,59 +6,46 @@ const { createContactSchema, updateContactSchema } = require("../schemas/contact
 
 
 const getAllContacts = async (req, res) => {
-      const contacts = await listContacts();
-      res.status(200).json(contacts);
-    };
-const getOneContact = async (req, res) => {
-   
-        const { id } = req.params;
-        const contact = await getContactById(id);
-    
-        if (!contact) {
-          throw HttpError(404);
-        }
-    
-        res.status(200).json(contact);
-      
+  const contacts = await listContacts();
+  res.status(200).json(contacts);
 };
-
+const getOneContact = async (req, res) => {
+  const { id } = req.params;
+  const contact = await getContactById(id);
+  if (!contact) {
+    throw HttpError(404);
+  }
+  res.status(200).json(contact);  
+};
 const deleteContact = async (req, res) => {
-   
-        const { id } = req.params;
-        const contact = await removeContact(id);
-    
-        if (!contact) {
-          throw HttpError(404);
-        }
-    
-        res.status(200).json(contact);
-      
+  const { id } = req.params;
+  const contact = await removeContact(id);
+  if (!contact) {
+    throw HttpError(404);
+  }
+  res.status(200).json(contact);
 };
 
 const createContact = async (req, res) => {
-    
-        const {error} = createContactSchema.validate(req.body);
-        if(error) {
-            throw HttpError(400, error.message);
-        }
-        const newContact = await addContact(req.body);
-        res.status(201).json(newContact);
-    
+  const {error} = createContactSchema.validate(req.body);
+  if(error) {
+      throw HttpError(400, error.message);
+  }
+  const newContact = await addContact(req.body);
+  res.status(201).json(newContact);
 };
 
 const updateContact = async (req, res) => {
-   
-        const {error} = updateContactSchema.validate(req.body);
-        if(error) { 
-            throw HttpError(400, error.message);
-        }   
-        const { id } = req.params;  
-        const contact = await updateContactById(id, req.body);
-        if(!contact) {
-            throw HttpError(404);
-        }
-        res.status(200).json(contact);
-   
+  const {error} = updateContactSchema.validate(req.body);
+  if(error) { 
+      throw HttpError(400, error.message);
+  }   
+  const { id } = req.params;  
+  const contact = await updateContactById(id, req.body);
+  if(!contact) {
+      throw HttpError(404);
+  }
+  res.status(200).json(contact);
 };
 
 module.exports = {
