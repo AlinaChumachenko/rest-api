@@ -5,10 +5,12 @@ const { createContactSchema, updateContactSchema, updateFavoriteSchema } = requi
 
 const getAllContacts = async (req, res, next) => {
   const {_id: owner} = req.user;
+  const {page = 1, limit = 10} = req.query;
+  const skip = (page - 1) * limit;
   // const contacts = await Contact.find({name:"Alec Howard"}); // шукає повне співпадіння
   // const contacts = await Contact.find({}, "name email"); // повернути лише деякі поля
   // const contacts = await Contact.find({}, "-сreatedAt -updatedAt"); // не повертати ці поля
-  const contacts = await Contact.find({owner});
+  const contacts = await Contact.find({owner}, "-сreatedAt -updatedAt", {skip, limit}).populate('owner', 'name email');
 
   res.status(200).json(contacts);
 };
