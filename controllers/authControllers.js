@@ -4,17 +4,17 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/users.js");
 const HttpError = require("../helpers/HttpError.js");
 const ctrlWrapper = require("../helpers/ctrlWrapper.js");
-const { registerSchema, loginSchema } = require("../schemas/usersSchemas.js");
+// const { registerSchema, loginSchema } = require("../schemas/usersSchemas.js");
 
 const { SECRET_KEY } = process.env;
 
 const register = async(req, res, next) => {
     const { email, password } = req.body;
 
-    const { error } = registerSchema.validate(req.body);
-    if (error) {
-    throw HttpError(400, error.message);
-    }
+    // const { error } = registerSchema.validate(req.body);
+    // if (error) {
+    // throw HttpError(400, error.message);
+    // }
 
     const user = await User.findOne({ email });
 
@@ -35,11 +35,11 @@ const register = async(req, res, next) => {
 const login = async(req, res, next) => {
     const { email, password } = req.body;
 
-    const { error } = loginSchema.validate(req.body);
+    // const { error } = loginSchema.validate(req.body);
 
-    if (error) {
-      throw HttpError(400, error.message);
-    }
+    // if (error) {
+    //   throw HttpError(400, error.message);
+    // }
 
     const user = await User.findOne({ email });
 

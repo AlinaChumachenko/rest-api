@@ -1,7 +1,7 @@
 const Contact = require("../models/contact.js");
 const HttpError = require("../helpers/HttpError.js");
 const ctrlWrapper = require("../helpers/ctrlWrapper.js");
-const { createContactSchema, updateContactSchema, updateFavoriteSchema } = require("../schemas/contactsSchemas.js");
+// const { createContactSchema, updateContactSchema, updateFavoriteSchema } = require("../schemas/contactsSchemas.js");
 
 const getAllContacts = async (req, res, next) => {
   const {_id: owner} = req.user;
@@ -45,10 +45,10 @@ const deleteContact = async (req, res, next) => {
 
 const createContact = async (req, res, next) => {
   
-  const { error } = createContactSchema.validate(req.body);
-  if (error) {
-    throw HttpError(400, error.message);
-  }
+  // const { error } = createContactSchema.validate(req.body);
+  // if (error) {
+  //   throw HttpError(400, error.message);
+  // }
   const {_id: owner} = req.user;
   const newContact = await Contact.create({...req.body, owner});
   res.status(201).json(newContact);
@@ -60,10 +60,10 @@ const updateContact = async (req, res, next) => {
   if (!Object.keys(req.body).length > 0) {
     throw HttpError(400, "Body must have at least one field");
   }
-  const { error } = updateContactSchema.validate(req.body);
-  if (error) {
-    throw HttpError(400, error.message);
-  }
+  // const { error } = updateContactSchema.validate(req.body);
+  // if (error) {
+  //   throw HttpError(400, error.message);
+  // }
 
   const { id } = req.params;
 
@@ -84,10 +84,10 @@ const updateFavorite = async (req, res, next) => {
     throw HttpError(400, "Missing field favorite");
   }
 
-  const { error } = updateFavoriteSchema.validate(req.body);
-  if (error) {
-    throw HttpError(400, error.message);
-  }
+  // const { error } = updateFavoriteSchema.validate(req.body);
+  // if (error) {
+  //   throw HttpError(400, error.message);
+  // }
 
   const { id } = req.params;
 
