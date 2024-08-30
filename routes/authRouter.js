@@ -5,6 +5,7 @@ const authenticate = require("../helpers/authenticate.js");
 const validateBody = require("../helpers/validateBody.js");
 const { registerSchema, loginSchema } = require("../schemas/usersSchemas.js");
 const upload = require("../middlewares/upload.js");
+const checkImageSize = require("../middlewares/checkImageSize.js");
 
 
 const authRouter = express.Router();
@@ -14,6 +15,6 @@ authRouter.post("/login", validateBody(loginSchema), login),
 
 authRouter.get("/current", authenticate, getCurrent);
 authRouter.post("/logout", authenticate, logout);
-authRouter.patch("/avatars", authenticate, upload.single("avatar"), updateAvatar);
+authRouter.patch("/avatars", authenticate, upload.single("avatar"), checkImageSize, updateAvatar);
 
 module.exports = authRouter;
