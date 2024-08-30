@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 const path = require("path");
 const fs = require("fs/promises");
+const Jimp = require("jimp");
 
 const User = require("../models/users.js");
 const HttpError = require("../helpers/HttpError.js");
@@ -33,12 +34,6 @@ const register = async(req, res, next) => {
 
 const login = async(req, res, next) => {
     const { email, password } = req.body;
-
-    // const { error } = loginSchema.validate(req.body);
-
-    // if (error) {
-    //   throw HttpError(400, error.message);
-    // }
 
     const user = await User.findOne({ email });
 
@@ -82,6 +77,11 @@ const logout = async(req, res, next) => {
 const updateAvatar = async(req, res, next) => {
     const {_id} = req.user;
     const {path: tempUpload, originalname} = req.file;
+
+    await Jimp.read(tempUpload).then((img) =>
+        img.resize(250, 250).write(`${tempUpload}`)
+      );
+
     const filename = `${_id}_${originalname}`;
     const resultUpload = path.join(avatarsDir, filename);
     await fs.rename(tempUpload, resultUpload);
